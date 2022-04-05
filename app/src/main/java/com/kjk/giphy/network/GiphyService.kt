@@ -9,4 +9,4 @@ interface GiphyService {
     fun getTrendingList(
         @Query("api_key") apiKey: String,
     )
-}
+}     
