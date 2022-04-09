@@ -24,19 +24,17 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
-            android:id="@+id/to_main_list_btn"
+            android:id="@+id/to_main_list_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="FAVORITE" />
+            android:text="Trending" />
 
         <Button
-            android:id="@+id/to_favorite_list_btn"
+            android:id="@+id/to_favorite_list_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="MAIN" />
+            android:text="Favorite" />
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

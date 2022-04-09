@@ -2,10 +2,15 @@ package com.kjk.giphy
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import com.kjk.giphy.databinding.ActivityMainBinding
+import com.kjk.giphy.ui.FavoriteFragment
 import com.kjk.giphy.ui.TrendingFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity :
+    AppCompatActivity(),
+    View.OnClickListener {
 
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
@@ -14,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
+        initListener()
         initLayout()
     }
 
@@ -27,5 +32,43 @@ class MainActivity : AppCompatActivity() {
                 .add(R.id.fragment_container, fragment)
                 .commit()
         }
+    }
+
+    private fun initListener() {
+        binding.apply {
+            toMainListButton.setOnClickListener(this@MainActivity)
+            toFavoriteListButton.setOnClickListener(this@MainActivity)
+        }
+    }
+
+    private fun moveToTrendingFragment() {
+        Log.d(TAG, "moveToTrendingFragment: ")
+    }
+
+    private fun moveToFavoriteFragment() {
+        Log.d(TAG, "moveToFavoriteFragment: ")
+        val fragment = FavoriteFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onClick(v: View?) {
+        binding.apply {
+            when(v) {
+                toMainListButton -> {
+                    moveToTrendingFragment()
+                }
+                toFavoriteListButton -> {
+                    moveToFavoriteFragment()
+                }
+            }
+        }
+    }
+
+    companion object {
+        private const val TAG = "MainActivity"
     }
 }
