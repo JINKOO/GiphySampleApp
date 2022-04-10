@@ -1,4 +1,4 @@
-package com.kjk.giphy.network.model
+package com.kjk.giphy.data.network.model
 
 data class Meta(
     val status: Int,

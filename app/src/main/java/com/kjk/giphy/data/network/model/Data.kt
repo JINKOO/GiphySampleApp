@@ -1,4 +1,4 @@
-package com.kjk.giphy.network.model
+package com.kjk.giphy.data.network.model
 
 import com.giphy.sdk.core.models.Images
 

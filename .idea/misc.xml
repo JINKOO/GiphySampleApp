@@ -4,7 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.45" />
-        <entry key="app/src/main/res/layout/fragment_favorite.xml" value="0.5901041666666667" />
+        <entry key="app/src/main/res/layout/fragment_favorite.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_trending.xml" value="0.45" />
         <entry key="app/src/main/res/layout/list_item_giphy.xml" value="0.335" />
       </map>

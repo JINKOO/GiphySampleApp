@@ -1,36 +1,39 @@
-package com.kjk.giphy.adapter
+package com.kjk.giphy
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.kjk.giphy.data.database.Giphy
 import com.kjk.giphy.databinding.ListItemGiphyBinding
 import com.kjk.giphy.model.GiphyDataSender
-import com.kjk.giphy.network.model.Data
-import kotlin.math.log
+import com.kjk.giphy.data.network.model.Data
 
 class GiphyAdapter(
-    private val dataSender: GiphyDataSender,
     private val callBackListener: OnCheckBoxClickListener
 ) : RecyclerView.Adapter<GiphyViewHolder>() {
 
     interface OnCheckBoxClickListener {
-        fun getCheckedState(isChecked: Boolean, data: Data)
+        fun getCheckedState(isChecked: Boolean, giphy: Giphy)
     }
+
+    private val giphyList = arrayListOf<Giphy>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GiphyViewHolder {
         val binding = ListItemGiphyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return GiphyViewHolder(dataSender, binding, callBackListener)
+        return GiphyViewHolder(binding, callBackListener)
     }
 
     override fun onBindViewHolder(holder: GiphyViewHolder, position: Int) {
-        Log.d(TAG, "onBindViewHolder: ${dataSender.getGiphyDataList().size}")
-        holder.bind(dataSender.getGiphyDataList()[position])
+        holder.bind(giphyList[position])
     }
 
     override fun getItemCount(): Int {
-        Log.d(TAG, "getItemCount: ${dataSender.getGiphyDataList().size}")
-        return dataSender.getGiphyDataList().size
+        return giphyList.size
+    }
+
+    fun updateAll(updateList: List<Giphy>) {
+        giphyList.addAll(updateList)
+        notifyDataSetChanged()
     }
 
     companion object {

@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.kjk.giphy.databinding.ActivityMainBinding
-import com.kjk.giphy.ui.FavoriteFragment
-import com.kjk.giphy.ui.TrendingFragment
+import com.kjk.giphy.favorite.FavoriteFragment
+import com.kjk.giphy.trending.TrendingFragment
 
 class MainActivity :
     AppCompatActivity(),
