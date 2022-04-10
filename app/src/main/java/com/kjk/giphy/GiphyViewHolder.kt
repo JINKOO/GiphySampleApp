@@ -1,32 +1,30 @@
-package com.kjk.giphy.adapter
+package com.kjk.giphy
 
 import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.kjk.giphy.data.database.Giphy
 import com.kjk.giphy.databinding.ListItemGiphyBinding
 import com.kjk.giphy.model.GiphyDataSender
-import com.kjk.giphy.model.GiphyItemEntity
-import com.kjk.giphy.network.model.Data
+import com.kjk.giphy.data.network.model.Data
 
 class GiphyViewHolder(
-    private val dataSender: GiphyDataSender,
     private val binding: ListItemGiphyBinding,
     private val callBackListener: GiphyAdapter.OnCheckBoxClickListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: Data) {
-        Log.d(TAG, "bind: ${item.images.fixedWidth?.gifUrl}")
+    fun bind(giphy: Giphy) {
         binding.apply {
             Glide
                 .with(giphyImageview.context)
-                .load(item.images.fixedWidth?.gifUrl)
+                .load(giphy.thumbnailUrl)
                 .into(giphyImageview)
 
-            giphyTextView.text = item.title
-            giphyId.text = item.id
+            favoriteCheckbox.isChecked = giphy.isFavorite
             favoriteCheckbox.setOnCheckedChangeListener { compoundButton, isChecked ->
-                callBackListener.getCheckedState(isChecked, item)
+                callBackListener.getCheckedState(isChecked, giphy)
             }
+            giphyTextView.text = giphy.title
         }
     }
     companion object {

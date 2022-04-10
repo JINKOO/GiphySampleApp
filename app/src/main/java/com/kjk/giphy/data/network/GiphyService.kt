@@ -1,6 +1,6 @@
-package com.kjk.giphy.network
+package com.kjk.giphy.data.network
 
-import com.kjk.giphy.network.model.ResponseTrendingGifs
+import com.kjk.giphy.data.network.model.ResponseTrendingGifs
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
