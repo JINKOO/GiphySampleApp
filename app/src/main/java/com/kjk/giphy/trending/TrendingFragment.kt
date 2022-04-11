@@ -54,13 +54,13 @@ class TrendingFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initLayout()
-        loadInitialData()
+        //loadInitialData()
 
         mainViewModel.giphyLiveData.observe(
             viewLifecycleOwner
         ) {
             if (it.isEmpty()) {
-                
+                Log.d(TAG, "onViewCreated: ${it.size}")
             } else {
                 Log.d(TAG, "onViewCreated: ${it.size}")
                 giphyAdapter.updateAll(it)
@@ -77,18 +77,14 @@ class TrendingFragment :
     }
 
 
-    private fun loadInitialData() {
-        Log.d(TAG, "loadInitialData: ")
-        mainViewModel.getInitialGiphyList()
-    }
+//    private fun loadInitialData() {
+//        Log.d(TAG, "loadInitialData: ")
+//        mainViewModel.getInitialGiphyList()
+//    }
 
     override fun getCheckedState(isChecked: Boolean, giphy: Giphy) {
-        Log.d(TAG, "getCheckedState: ${isChecked}, ${giphy}")
-        if (isChecked) {
-            mainViewModel.updateGiphy(giphy)
-        } else {
-
-        }
+        Log.d(TAG, "getCheckedState: ${isChecked}, ${giphy.id}")
+        mainViewModel.updateGiphy(giphy)
     }
 
     companion object {

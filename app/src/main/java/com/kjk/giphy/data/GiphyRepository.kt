@@ -41,9 +41,9 @@ class GiphyRepository private constructor(context: Context)  {
     fun loadAllGiphy(): LiveData<List<Giphy>> = giphyDao.loadAllGiphy()
     fun loadFavoriteGiphy(): LiveData<List<Giphy>> = giphyDao.loadFavoriteGiphyList()
 
-
     fun updateGiphy(giphy: Giphy) {
         executor.execute{
+            Log.d(TAG, "updateGiphy: ${giphy}")
             giphyDao.updateGiphy(giphy)
         }
     }
@@ -54,8 +54,7 @@ class GiphyRepository private constructor(context: Context)  {
         }
     }
 
-    fun getRemoteGiphyList() {
-        Log.d(TAG, "getRemoteGiphyList: ")
+    fun getRemoteGiphyList(){
         giphyService.getTrendingList().enqueue(
             object : Callback<ResponseTrendingGifs> {
                 override fun onResponse(
