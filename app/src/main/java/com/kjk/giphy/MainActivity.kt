@@ -43,6 +43,11 @@ class MainActivity :
 
     private fun moveToTrendingFragment() {
         Log.d(TAG, "moveToTrendingFragment: ")
+        val fragment = TrendingFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
     }
 
     private fun moveToFavoriteFragment() {
@@ -51,7 +56,6 @@ class MainActivity :
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
             .commit()
     }
 
