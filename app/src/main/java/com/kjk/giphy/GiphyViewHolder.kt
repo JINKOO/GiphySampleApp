@@ -1,12 +1,9 @@
 package com.kjk.giphy
 
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kjk.giphy.data.database.Giphy
 import com.kjk.giphy.databinding.ListItemGiphyBinding
-import com.kjk.giphy.model.GiphyDataSender
-import com.kjk.giphy.data.network.model.Data
 
 class GiphyViewHolder(
     private val binding: ListItemGiphyBinding,

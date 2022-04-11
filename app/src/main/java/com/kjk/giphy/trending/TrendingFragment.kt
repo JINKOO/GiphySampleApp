@@ -13,17 +13,6 @@ import com.kjk.giphy.GiphyAdapter
 import com.kjk.giphy.MainViewModel
 import com.kjk.giphy.data.database.Giphy
 import com.kjk.giphy.databinding.FragmentTrendingBinding
-import com.kjk.giphy.data.network.API_KEY_GIPHY
-import com.kjk.giphy.data.network.BASE_URL_GIPHY
-import com.kjk.giphy.data.network.GiphyService
-import com.kjk.giphy.data.network.model.Data
-import com.kjk.giphy.data.network.model.ResponseTrendingGifs
-import com.kjk.giphy.model.GiphyModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class TrendingFragment :
     Fragment(),
@@ -54,7 +43,6 @@ class TrendingFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initLayout()
-        //loadInitialData()
 
         mainViewModel.giphyLiveData.observe(
             viewLifecycleOwner
@@ -75,12 +63,6 @@ class TrendingFragment :
             adapter = giphyAdapter
         }
     }
-
-
-//    private fun loadInitialData() {
-//        Log.d(TAG, "loadInitialData: ")
-//        mainViewModel.getInitialGiphyList()
-//    }
 
     override fun getCheckedState(isChecked: Boolean, giphy: Giphy) {
         Log.d(TAG, "getCheckedState: ${isChecked}, ${giphy.id}")

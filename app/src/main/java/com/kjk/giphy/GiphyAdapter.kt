@@ -5,8 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kjk.giphy.data.database.Giphy
 import com.kjk.giphy.databinding.ListItemGiphyBinding
-import com.kjk.giphy.model.GiphyDataSender
-import com.kjk.giphy.data.network.model.Data
 
 class GiphyAdapter(
     private val callBackListener: OnCheckBoxClickListener
