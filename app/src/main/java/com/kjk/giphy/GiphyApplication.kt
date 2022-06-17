@@ -1,12 +1,12 @@
 package com.kjk.giphy
 
 import android.app.Application
-import com.kjk.giphy.data.GiphyRepository
+import timber.log.Timber
 
 class GiphyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        GiphyRepository.initialize(this)
+        Timber.plant(Timber.DebugTree())
     }
 }

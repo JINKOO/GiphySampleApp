@@ -1,100 +1,60 @@
 package com.kjk.giphy.data
 
-import android.content.Context
-import android.util.Log
+import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.room.Room
-import com.kjk.giphy.data.database.Giphy
+import androidx.lifecycle.Transformations
 import com.kjk.giphy.data.database.GiphyDatabase
-import com.kjk.giphy.data.network.API_KEY_GIPHY
-import com.kjk.giphy.data.network.BASE_URL_GIPHY
-import com.kjk.giphy.data.network.GiphyService
-import com.kjk.giphy.data.network.model.ResponseTrendingGifs
-import com.kjk.giphy.data.network.model.toGiphyList
-import com.kjk.giphy.trending.TrendingFragment
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.IllegalStateException
-import java.util.concurrent.Executors
+import com.kjk.giphy.data.database.GiphyDatabaseEntity
+import com.kjk.giphy.data.database.asDomainModel
+import com.kjk.giphy.data.domain.GiphyProperty
+import com.kjk.giphy.data.network.GiphyApi
+import com.kjk.giphy.data.network.model.toDatabaseModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 
-class GiphyRepository private constructor(context: Context)  {
+class GiphyRepository (application: Application)  {
 
-    private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL_GIPHY)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+    /**
+     * database
+     */
+    private val databaseDao =
+        GiphyDatabase.getInstance(application).databaseDao
 
-    private val giphyService = retrofit.create(GiphyService::class.java)
+    /**
+     * retrofit
+     */
+    private val retrofitService = GiphyApi.retrofitService
 
-    private val database: GiphyDatabase = Room.databaseBuilder(
-        context.applicationContext,
-        GiphyDatabase::class.java,
-        DATABASE_NAME
-    ).build()
+    /**
+     *  database로 부터 fetch한 data
+     */
+    private val giphyDatabaseEntities: LiveData<List<GiphyDatabaseEntity>> = databaseDao.getAllGiphies()
 
-    private val giphyDao = database.getGiphyDAO()
-    private val executor = Executors.newSingleThreadExecutor()
-
-    fun loadAllGiphy(): LiveData<List<Giphy>> = giphyDao.loadAllGiphy()
-    fun loadFavoriteGiphy(): LiveData<List<Giphy>> = giphyDao.loadFavoriteGiphyList()
-
-    fun updateGiphy(giphy: Giphy) {
-        executor.execute{
-            Log.d(TAG, "updateGiphy: ${giphy}")
-            giphyDao.updateGiphy(giphy)
-        }
+    /**
+     *  UI Controller에서 사용하기 위해,
+     *  Transformation을 사용해, Domain Object로 변환
+     */
+    val giphyProperties: LiveData<List<GiphyProperty>> = Transformations.map(giphyDatabaseEntities) {
+        it.asDomainModel()
     }
 
-    fun deleteGiphy(giphy: Giphy) {
-        executor.execute{
-            giphyDao.deleteGiphy(giphy)
+    /**
+     *  network로 부터 fetch한 data를
+     *  room database에 insert한다.
+     *  database refresh
+     */
+    suspend fun refresh() {
+        withContext(Dispatchers.IO) {
+            // 1. network로 부터 fetch
+            val giphiesFromNetwork = retrofitService.getAllGiphies()
+            Timber.d("${giphiesFromNetwork.data.size}")
+            // 2. database에 insert
+            databaseDao.insertAll(giphiesFromNetwork.toDatabaseModel())
         }
-    }
-
-    fun getRemoteGiphyList(){
-        giphyService.getTrendingList().enqueue(
-            object : Callback<ResponseTrendingGifs> {
-                override fun onResponse(
-                    call: Call<ResponseTrendingGifs>,
-                    response: Response<ResponseTrendingGifs>
-                ) {
-                    if (response.isSuccessful.not()) {
-                        Log.d(TAG, "onResponse: notSuccesful ")
-                        return
-                    }
-
-                    response.body()?.let {
-                        executor.execute {
-                            Log.d(TAG, "onResponse: ${it.data.size}")
-                            giphyDao.insertAllGiphy(it.toGiphyList())
-                        }
-                    }
-                }
-                override fun onFailure(call: Call<ResponseTrendingGifs>, t: Throwable) {
-                    Log.d(TAG, "onFailure: ${t}")
-                }
-            }
-        )
     }
 
     companion object {
         private const val TAG = "GiphyRepository"
-        private const val DATABASE_NAME = "giphy-database"
-        private var INSTANCE: GiphyRepository? = null
-
-        fun initialize(context: Context) {
-            if (INSTANCE == null) {
-                INSTANCE = GiphyRepository(context)
-            }
-        }
-
-        fun get(): GiphyRepository {
-            return INSTANCE ?: throw IllegalStateException(
-                "GiphyRepository must be initialized"
-            )
-        }
     }
 }

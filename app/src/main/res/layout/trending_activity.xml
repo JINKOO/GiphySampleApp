@@ -4,22 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".trending.TrendingActivity">
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_menu_linear_layout"/>
+        app:layout_constraintBottom_toTopOf="@+id/bottom_menu_linear_layout"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/navigation"/>
 
     <LinearLayout
         android:id="@+id/bottom_menu_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_container"
+        app:layout_constraintTop_toBottomOf="@+id/nav_host_fragment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
@@ -28,13 +31,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Trending" />
+            android:text="@string/trending_label" />
 
         <Button
             android:id="@+id/to_favorite_list_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Favorite" />
+            android:text="@string/favorite_label" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
