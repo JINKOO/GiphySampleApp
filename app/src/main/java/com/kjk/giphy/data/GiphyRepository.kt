@@ -49,6 +49,7 @@ class GiphyRepository (application: Application)  {
             // 1. network로 부터 fetch
             val giphiesFromNetwork = retrofitService.getAllGiphies()
             Timber.d("${giphiesFromNetwork.data.size}")
+
             // 2. database에 insert
             databaseDao.insertAll(giphiesFromNetwork.toDatabaseModel())
         }

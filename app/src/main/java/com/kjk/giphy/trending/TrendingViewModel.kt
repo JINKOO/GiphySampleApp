@@ -35,6 +35,13 @@ class TrendingViewModel(
     val apiStatus: LiveData<GiphyApiStatus>
         get() = _apiStatus
 
+    /**
+     *  Favorite Fragment로 navigate 하는 event trigger
+     */
+    private val _navigateToFavorite = MutableLiveData<Boolean>()
+    val navigateToFavorite: LiveData<Boolean>
+        get() = _navigateToFavorite
+
 
     init {
         refreshGiphyListFromRepository()
@@ -51,12 +58,23 @@ class TrendingViewModel(
             try {
                 giphyRepository.refresh()
                 _apiStatus.value = GiphyApiStatus.DONE
-                Timber.d("${giphyProperties.value!!.size}")
+                Timber.d("Success :: ${giphyProperties.value!!.size}")
             } catch(e: Exception) {
-                Timber.d("${e.message}")
+                Timber.d("Failure :: ${e.message}")
                 _apiStatus.value = GiphyApiStatus.ERROR
             }
         }
+    }
+
+    /**
+     *  Favorite Fragment로 이동 완료 설정하는 함수
+     */
+    fun onNavigateDone() {
+        _navigateToFavorite.value = false
+    }
+
+    fun onFavoriteButtonClicked() {
+        _navigateToFavorite.value = true
     }
 
     companion object {

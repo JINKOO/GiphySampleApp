@@ -57,12 +57,15 @@ fun setThumbnailImage(imageView: ImageView, thumbNailUrl: String?) {
 fun setErrorImage(imageView: ImageView, apiStatus: GiphyApiStatus?) {
     apiStatus?.let {
         imageView.run {
+            setImageResource(R.drawable.ic_connection_error)
             visibility = when (apiStatus) {
                 GiphyApiStatus.ERROR -> {
-                   View.VISIBLE
+                    Timber.d("ERROR")
+                    View.VISIBLE
                 }
                 GiphyApiStatus.DONE,
                 GiphyApiStatus.LOADING -> {
+                    Timber.d("LOAD DONE")
                     View.GONE
                 }
             }

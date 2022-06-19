@@ -9,5 +9,14 @@
         android:id="@+id/trendingFragment"
         android:name="com.kjk.giphy.trending.TrendingFragment"
         android:label="TrendingFragment"
-        tools:layout="@layout/fragment_trending"/>
+        tools:layout="@layout/fragment_trending">
+        <action
+            android:id="@+id/action_trendingFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.kjk.giphy.favorite.FavoriteFragment"
+        android:label="FavoriteFragment"
+        tools:layout="@layout/fragment_favorite"/>
 </navigation>
