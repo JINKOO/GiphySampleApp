@@ -6,10 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.kjk.giphy.R
 import com.kjk.giphy.databinding.FragmentFavoriteBinding
 import com.kjk.giphy.trending.TrendingViewModel
 import com.kjk.giphy.trending.GiphyAdapter
@@ -18,20 +21,24 @@ class FavoriteFragment : Fragment() {
 
     private lateinit var binding: FragmentFavoriteBinding
 
-    private val viewModel by lazy {
-        ViewModelProvider(this).get(TrendingViewModel::class.java)
-    }
+    private val viewModel: TrendingViewModel by activityViewModels()
 
     private val favoriteAdapter by lazy {
         GiphyAdapter()
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_favorite,
+            container,
+            false
+        )
 
         initLayout()
 
