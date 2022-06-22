@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Giphy</string>
     <string name="trending_label">Trending</string>
-    <string name="favorite_label">Favorite</string>
     <string name="empty_liked_item">찜한 아이템이 없습니다.</string>
+    <string name="menu_show_all">Show All</string>
+    <string name="favorite_label">Favorite</string>
 </resources>

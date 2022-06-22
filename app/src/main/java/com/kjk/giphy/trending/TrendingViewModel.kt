@@ -27,13 +27,13 @@ class TrendingViewModel(
      */
     var giphyProperties: LiveData<List<GiphyProperty>> = giphyRepository.giphyProperties
 
-
     /**
      *  api network status LiveData
      */
     private val _apiStatus = MutableLiveData<GiphyApiStatus>()
     val apiStatus: LiveData<GiphyApiStatus>
         get() = _apiStatus
+
 
     /**
      *  Favorite Fragment로 navigate 하는 event trigger

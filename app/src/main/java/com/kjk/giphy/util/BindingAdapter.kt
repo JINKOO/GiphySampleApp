@@ -41,7 +41,7 @@ fun setGiphyList(recyclerView: RecyclerView, giphyProperties: List<GiphyProperty
 
 @BindingAdapter("giphyThumbnail")
 fun setThumbnailImage(imageView: ImageView, thumbNailUrl: String?) {
-    Timber.d("${thumbNailUrl}")
+    //Timber.d("${thumbNailUrl}")
     thumbNailUrl?.let {
         val imgSrcUrl = thumbNailUrl.toUri().buildUpon().scheme("https").build()
         Glide.with(imageView.context)

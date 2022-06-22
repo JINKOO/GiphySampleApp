@@ -1,15 +1,12 @@
 package com.kjk.giphy.favorite
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kjk.giphy.R
@@ -17,6 +14,9 @@ import com.kjk.giphy.databinding.FragmentFavoriteBinding
 import com.kjk.giphy.trending.TrendingViewModel
 import com.kjk.giphy.trending.GiphyAdapter
 
+/**
+ *  아직 미완성 class
+ */
 class FavoriteFragment : Fragment() {
 
     private lateinit var binding: FragmentFavoriteBinding
