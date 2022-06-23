@@ -31,6 +31,7 @@ fun hideProgressBar(progressBar: ProgressBar, apiStatus: GiphyApiStatus?) {
     }
 }
 
+
 @BindingAdapter("giphyPropertyList")
 fun setGiphyList(recyclerView: RecyclerView, giphyProperties: List<GiphyProperty>?) {
     val adapter = recyclerView.adapter as GiphyAdapter
@@ -39,6 +40,7 @@ fun setGiphyList(recyclerView: RecyclerView, giphyProperties: List<GiphyProperty
     }
 }
 
+
 @BindingAdapter("giphyThumbnail")
 fun setThumbnailImage(imageView: ImageView, thumbNailUrl: String?) {
     //Timber.d("${thumbNailUrl}")
@@ -46,28 +48,47 @@ fun setThumbnailImage(imageView: ImageView, thumbNailUrl: String?) {
         val imgSrcUrl = thumbNailUrl.toUri().buildUpon().scheme("https").build()
         Glide.with(imageView.context)
             .load(imgSrcUrl)
-            .apply(RequestOptions()
-                .placeholder(R.drawable.loading_img)
-                .error(R.drawable.ic_broken_image))
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.loading_img)
+                    .error(R.drawable.ic_broken_image)
+            )
             .into(imageView)
     }
 }
 
-@BindingAdapter("errorImage")
-fun setErrorImage(imageView: ImageView, apiStatus: GiphyApiStatus?) {
-    apiStatus?.let {
-        imageView.run {
-            setImageResource(R.drawable.ic_connection_error)
-            visibility = when (apiStatus) {
-                GiphyApiStatus.ERROR -> {
-                    Timber.d("ERROR")
-                    View.VISIBLE
+
+@BindingAdapter("showErrorImage", "hideErrorImage")
+fun setErrorImage(
+    imageView: ImageView,
+    apiStatus: GiphyApiStatus?,
+    giphyProperties: List<GiphyProperty>?
+) {
+    imageView.apply {
+        setImageResource(R.drawable.ic_connection_error)
+        apiStatus?.let {
+            imageView.run {
+                visibility = when (apiStatus) {
+                    GiphyApiStatus.ERROR -> {
+                        Timber.d("ERROR")
+                        View.VISIBLE
+                    }
+                    GiphyApiStatus.DONE,
+                    GiphyApiStatus.LOADING -> {
+                        Timber.d("LOAD DONE")
+                        View.GONE
+                    }
                 }
-                GiphyApiStatus.DONE,
-                GiphyApiStatus.LOADING -> {
-                    Timber.d("LOAD DONE")
-                    View.GONE
-                }
+            }
+        }
+
+        /**
+         *  room db에 data가 존재하는 경우에는
+         *  network 에러 이미지를 Gone시킨다.
+         */
+        giphyProperties?.let {
+            if (!it.isNullOrEmpty()) {
+                visibility = View.GONE
             }
         }
     }

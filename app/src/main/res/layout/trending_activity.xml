@@ -20,12 +20,13 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:defaultNavHost="true"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_menu_linear_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/navigation" />
 
+        <!--
         <LinearLayout
             android:id="@+id/bottom_menu_linear_layout"
             android:layout_width="match_parent"
@@ -34,12 +35,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nav_host_fragment">
 
+
             <Button
                 android:id="@+id/to_main_list_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/trending_label" />
+                android:text="@string/trending_label"
+                android:onClick="@{() -> viewModel.onTrendingButtonClicked()}"
+                android:enabled="@{viewModel.trendingButtonEnable}"/>
 
             <Button
                 android:id="@+id/to_favorite_list_button"
@@ -47,7 +51,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/favorite_label"
-                android:onClick="@{() -> viewModel.onFavoriteButtonClicked()}"/>
+                android:onClick="@{() -> viewModel.onFavoriteButtonClicked()}"
+                android:enabled="@{viewModel.favoriteButtonEnable}"/>
+
         </LinearLayout>
+        -->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -13,11 +13,6 @@ interface GiphyDatabaseDAO {
     @Query("SELECT * FROM giphy_database")
     fun getAllGiphies(): LiveData<List<GiphyDatabaseEntity>>
 
-    /**
-     *
-     */
-    @Query("SELECT * FROM giphy_database WHERE isFavorite = 1")
-    fun loadFavoriteGiphyList(): LiveData<List<GiphyDatabaseEntity>>
 
     /**
      *  network로 부터 fetch한 data를 room database에 insert하는 함수.

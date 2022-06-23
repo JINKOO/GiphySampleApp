@@ -17,10 +17,12 @@ class TrendingFragment : Fragment() {
 
     private lateinit var binding: FragmentTrendingBinding
 
+
     /**
      * viewModel 정의
      */
     private val viewModel: TrendingViewModel by activityViewModels()
+
 
     /**
      *  recyclerview에 사용할
@@ -30,11 +32,14 @@ class TrendingFragment : Fragment() {
         GiphyAdapter()
     }
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Timber.d("onCreateView")
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_trending,
@@ -47,14 +52,15 @@ class TrendingFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+
         setHasOptionsMenu(true)
 
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Timber.d("onViewCreated")
 
         observe()
     }
@@ -65,7 +71,8 @@ class TrendingFragment : Fragment() {
     }
 
     /**
-     *  Navigation Bar menu item을 클릭한 경우
+     *  App Bar menu item을 클릭한 경우,
+     *  아직 구현 중.
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
@@ -81,6 +88,10 @@ class TrendingFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+
+    /**
+     *  layout 초기화
+     */
     private fun initLayout() {
         binding.recyclerView.apply {
             layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
@@ -88,13 +99,16 @@ class TrendingFragment : Fragment() {
         }
     }
 
-
+    /**
+     *  liveData observing
+     */
     private fun observe() {
         // LiveData Observing 추가.
         viewModel.navigateToFavorite.observe(viewLifecycleOwner, Observer { toMove ->
             if (toMove) {
                 // Favorite Fragment로 이동
                 moveToFavoriteFragment()
+                viewModel.onNavigateFavoriteDone()
             }
         })
     }

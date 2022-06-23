@@ -14,6 +14,11 @@ data class GiphyDatabaseEntity(
     val offset: Int
 )
 
+/**
+ *  database의 object를
+ *  app 내 UI controller에서 사용하기 위해
+ *  domain object로 변환.
+ */
 fun List<GiphyDatabaseEntity>.asDomainModel(): List<GiphyProperty> {
     return map {
         GiphyProperty(

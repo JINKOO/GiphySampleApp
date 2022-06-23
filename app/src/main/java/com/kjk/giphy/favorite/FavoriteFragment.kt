@@ -15,7 +15,9 @@ import com.kjk.giphy.trending.TrendingViewModel
 import com.kjk.giphy.trending.GiphyAdapter
 
 /**
- *  아직 미완성 class
+ *  Trending Fragment에서 사용자가 item을 찜했을 경우,
+ *  찜한 아이템만, 보여주는 Fragment
+ *  2022-06-24현재 아직 구현 중.
  */
 class FavoriteFragment : Fragment() {
 
@@ -45,18 +47,16 @@ class FavoriteFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 
     private fun initLayout() {
         binding.favoriteRecyclerView.apply {
-            layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+            layoutManager = StaggeredGridLayoutManager(MAX_SPAN_COUNT, LinearLayoutManager.VERTICAL)
             adapter = favoriteAdapter
         }
     }
 
     companion object {
         private const val TAG = "FavoriteFragment"
+        private const val MAX_SPAN_COUNT = 2
     }
 }
