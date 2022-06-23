@@ -8,6 +8,10 @@ import com.kjk.giphy.R
 import com.kjk.giphy.data.domain.GiphyProperty
 import com.kjk.giphy.databinding.ListItemGiphyBinding
 
+/**
+ * Recycler view Adapter class
+ * 추후, DiffUtil로 변경할 것.
+ */
 class GiphyAdapter : RecyclerView.Adapter<GiphyAdapter.GiphyViewHolder>() {
 
     private val giphyList = arrayListOf<GiphyProperty>()
@@ -24,6 +28,9 @@ class GiphyAdapter : RecyclerView.Adapter<GiphyAdapter.GiphyViewHolder>() {
         return giphyList.size
     }
 
+    /**
+     *  리사이클러 뷰의 리스트 업데이트.
+     */
     fun updateAll(updateList: List<GiphyProperty>) {
         giphyList.addAll(updateList)
         notifyDataSetChanged()
@@ -34,7 +41,7 @@ class GiphyAdapter : RecyclerView.Adapter<GiphyAdapter.GiphyViewHolder>() {
     }
 
     /**
-     *  ViewHolder Class이다.
+     *  ViewHolder Class
      */
     class GiphyViewHolder(
         private val binding: ListItemGiphyBinding
@@ -47,6 +54,12 @@ class GiphyAdapter : RecyclerView.Adapter<GiphyAdapter.GiphyViewHolder>() {
 
         companion object {
             private const val TAG = "GiphyViewHolder"
+
+            /**
+             *  ViewHolder의 객체를 Adapter에서 생성하지 않고,
+             *  ViewHolder class 에서 생성한다.
+             *  음, Adpaterd
+             */
             fun from(parent: ViewGroup): GiphyViewHolder  {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = DataBindingUtil.inflate<ListItemGiphyBinding>(

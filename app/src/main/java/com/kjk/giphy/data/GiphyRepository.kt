@@ -13,6 +13,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
+/**
+ * Repository pattern
+ */
 class GiphyRepository (application: Application)  {
 
     /**
@@ -27,13 +30,14 @@ class GiphyRepository (application: Application)  {
     private val retrofitService = GiphyApi.retrofitService
 
     /**
-     *  database로 부터 fetch한 data
+     *  room database로 부터 fetch한 data
      */
     private val giphyDatabaseEntities: LiveData<List<GiphyDatabaseEntity>> = databaseDao.getAllGiphies()
 
     /**
      *  UI Controller에서 사용하기 위해,
-     *  Transformation을 사용해, Domain Object로 변환
+     *  즉, ViewModel에서 사용하기 위해,
+     *  Transformation을 사용해, App내 UI Controller에서 사용할 Domain Object로 변환
      */
     val giphyProperties: LiveData<List<GiphyProperty>> = Transformations.map(giphyDatabaseEntities) {
         it.asDomainModel()
@@ -42,7 +46,9 @@ class GiphyRepository (application: Application)  {
     /**
      *  network로 부터 fetch한 data를
      *  room database에 insert한다.
-     *  database refresh
+     *  database refresh.
+     *  즉, remote data source와 room db의 sync를 맞추기 위해.
+     *  withContext는..??
      */
     suspend fun refresh() {
         withContext(Dispatchers.IO) {
